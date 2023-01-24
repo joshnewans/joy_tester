@@ -22,6 +22,5 @@ setup(
         'console_scripts': [
             'test_joy = joy_tester.test_joy:main',
         ],
-        
     },
 )
