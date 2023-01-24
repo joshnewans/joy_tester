@@ -99,21 +99,21 @@ class JoyTester(Node):
         # Handle first receive
 
         if not self.initialised:
-            for i in range(len(joy_msg.buttons)):
+            for i, val in enumerate(joy_msg.buttons):
                 self.buttons.append(JoyButton(self.canvas, left_space, v_space, height, i))
 
-            for i in range(len(joy_msg.axes)):
+            for i, val in enumerate(joy_msg.axes):
                 self.axes.append(JoyAxis(self.canvas, left_space, v_space, height, width, i))
 
             self.initialised = True
 
         # Update Values
 
-        for i in range(len(joy_msg.buttons)):
-            self.buttons[i].update_value(joy_msg.buttons[i])
+        for i, val in enumerate(joy_msg.buttons):
+            self.buttons[i].update_value(val)
 
-        for i in range(len(joy_msg.axes)):
-            self.axes[i].update_value(joy_msg.axes[i])
+        for i, val in enumerate(joy_msg.axes):
+            self.axes[i].update_value(val)
 
 
         # Redraw
