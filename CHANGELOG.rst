@@ -2,8 +2,8 @@
 Changelog for package joy_tester
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 
-Forthcoming
------------
+0.0.2 (2023-01-26)
+------------------
 * Fixed copyright and linting issues.
 * Clean up loop
 * Added missing dependencies to package.xml
