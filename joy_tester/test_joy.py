@@ -13,11 +13,13 @@
 # limitations under the License.
 
 
-import rclpy
-from rclpy.node import Node
-from sensor_msgs.msg import Joy
+from tkinter import Canvas, Tk
 
-from tkinter import Tk, Canvas
+import rclpy
+from rclpy.executors import ExternalShutdownException
+from rclpy.node import Node
+
+from sensor_msgs.msg import Joy
 
 
 class JoyButton:
@@ -30,13 +32,13 @@ class JoyButton:
                                                          t,
                                                          lf + height,
                                                          t + height,
-                                                         width=2, fill="white")
+                                                         width=2, fill='white')
 
     def update_value(self, value):
         if (value > 0):
-            self.parent_canvas.itemconfigure(self.circle_obj, fill="#FF0000")
+            self.parent_canvas.itemconfigure(self.circle_obj, fill='#FF0000')
         else:
-            self.parent_canvas.itemconfigure(self.circle_obj, fill="#FFFFFF")
+            self.parent_canvas.itemconfigure(self.circle_obj, fill='#FFFFFF')
 
 
 class JoyAxis:
@@ -56,12 +58,12 @@ class JoyAxis:
                                                             t,
                                                             lf + width,
                                                             t + height,
-                                                            width=0, fill="green")
+                                                            width=0, fill='green')
         self.outline_obj = self.parent_canvas.create_rectangle(lf,
                                                                t,
                                                                lf + width,
                                                                t + height,
-                                                               width=2, outline="black")
+                                                               width=2, outline='black')
 
         self.val_txt = self.parent_canvas.create_text(left_space+60 + width + 30,
                                                       t+height/2,
@@ -93,8 +95,8 @@ class JoyTester(Node):
         self.tk = Tk()
 
         self.canvas = Canvas(self.tk, width=800, height=480)
-        self.tk.title("Joystick Test")
-        self.tk.geometry("800x480+0+0")
+        self.tk.title('Joystick Test')
+        self.tk.geometry('800x480+0+0')
         self.canvas.pack(anchor='nw')
 
         self.tk.update()
@@ -134,6 +136,15 @@ class JoyTester(Node):
 def main(args=None):
     rclpy.init(args=args)
     joy_tester = JoyTester()
-    rclpy.spin(joy_tester)
+
+    try:
+        rclpy.spin(joy_tester)
+    except KeyboardInterrupt:
+        print('Received keyboard interrupt!')
+    except ExternalShutdownException:
+        print('Received external shutdown request!')
+
+    print('Exiting...')
+
     joy_tester.destroy_node()
-    rclpy.shutdown()
+    rclpy.try_shutdown()
